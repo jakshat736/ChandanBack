@@ -4,9 +4,7 @@ const bookingSchema = new mongoose.Schema({
   mobile: {
     type: String,
     required: true,
-    minlength: 10,
-    maxlength: 12
-  },
+   },
   name: {
     type: String,
     required: true,

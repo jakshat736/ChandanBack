@@ -28,6 +28,29 @@ router.post('/addusers',upload.single(), async (req, res) => {
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
+router.post('/addusersbymail',upload.single(), async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body)
+
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // If user does not exist, create new user
+      user = new User({ email });
+      await user.save();
+      return res.status(200).json({result:true, mail: email, message: 'Login successful' });
+    }
+
+
+    console.log(user.email)
+    return res.status(200).json({result:'exist',mail: email, message: 'Login successful' });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({err:err, message:`${err}` });
+  }
+});
+
 
 router.post('/Edit_user', async (req, res) => {
   try {

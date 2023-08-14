@@ -3,11 +3,14 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   mobile: {
     type: String,
-    required: true,
     unique: true,
     minlength: 10,
     maxlength: 12
   },
+email:{
+type:String,
+unique:true,
+},
   name: {
     type: String,
     required: false,

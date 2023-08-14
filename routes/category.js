@@ -8,9 +8,9 @@ const router = express.Router();
 // Add a new category
 router.post('/addcategory', upload.single('icon'), async (req, res) => {
   try {
-    const { categoryname } = req.body;
+    const { categoryname,priority } = req.body;
     const icon = req.file.originalname;
-    const category = new Category({ categoryname, icon });
+    const category = new Category({ categoryname,priority, icon });
     await category.save();
     return res.status(200).json({ result: true });
   } catch (error) {
@@ -29,12 +29,22 @@ router.get('/display_all_category', async (req, res) => {
     return res.status(500).json({ data: [] });
   }
 });
+router.get('/priority', async (req, res) => {
+  try {
+    const categories = await Category.find({ priority: 1 });
+    return res.status(200).json({ data:categories });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 // Edit a category
 router.post('/edit_category_data', async (req, res) => {
   try {
-    const { categoryid, categoryname } = req.body;
-    await Category.updateOne({ _id: categoryid }, { categoryname });
+    const { categoryid, categoryname,priority } = req.body;
+    await Category.updateOne({ _id: categoryid }, { categoryname,priority });
     return res.status(200).json({ status: true });
   } catch (error) {
     console.log(error);

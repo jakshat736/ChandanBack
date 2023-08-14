@@ -19,7 +19,16 @@ const Product = require("./Schemas/productSchema")
     }
   });
 
-  
+  router.get('/priority', async (req, res) => {
+  try {
+    const categories = await Category.find({ priority: 1 });
+    return res.status(200).json({data: categories });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
   router.post("/display_all_subcategory", async (req, res) => {
     try {
